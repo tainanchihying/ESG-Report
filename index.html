@@ -95,6 +95,9 @@
             align-items: center;
             gap: 14px;
             min-width: 0;
+            color: inherit;
+            text-decoration: none;
+            cursor: pointer;
         }
 
         .nav-logo-img {
@@ -576,6 +579,9 @@
         .cta-footer-info { display: flex; flex-direction: column; gap: 22px; align-items: center; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 50px; max-width: 700px; margin: 0 auto; }
         .info-row { display: flex; align-items: center; gap: 14px; font-size: 20px; color: rgba(255,255,255,0.95); font-weight: 600; text-decoration: none; transition: color 0.3s; }
         .info-row i { color: var(--brand-cyan); font-size: 22px; width: 24px; text-align: center; }
+        .info-row:visited, .info-row:active, .info-row:focus { color: rgba(255,255,255,0.95); }
+        .info-phone-mobile { display: none; }
+        .info-phone-desktop { display: flex; cursor: default; }
         
         a.info-row:hover { color: var(--brand-cyan); }
 
@@ -683,12 +689,22 @@
             }
 
             .chips-container {
-                gap: 8px;
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 10px;
+                max-width: 330px;
+                margin: 0 auto;
             }
 
             .tag-chip {
+                width: 100%;
+                min-height: 42px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
                 font-size: 14px;
-                padding: 5px 12px;
+                padding: 7px 10px;
             }
 
             .hero-town-scene {
@@ -858,6 +874,20 @@
                 align-items: flex-start;
             }
 
+            .info-row:visited,
+            .info-row:active,
+            .info-row:focus {
+                color: rgba(255,255,255,0.95);
+            }
+
+            .info-phone-desktop {
+                display: none;
+            }
+
+            .info-phone-mobile {
+                display: flex;
+            }
+
             .footer {
                 padding: 22px 18px;
                 font-size: 13px;
@@ -911,14 +941,14 @@
 
     </style>
 </head>
-<body>
+<body id="top">
 
     <!-- 導覽列 -->
     <nav class="nav">
-        <div class="nav-logo">
+        <a class="nav-logo" href="#top" aria-label="回到頁面最上方">
             <img src="logo.png" alt="臺南市織英教育與公益協會 Logo" class="nav-logo-img">
             <span class="nav-name">臺南市織英教育與公益協會</span>
-        </div>
+        </a>
         <div class="nav-links">
             <a class="nav-link" href="#about">什麼是ESG</a>
             <a class="nav-link" href="#situation">真實情境</a>
@@ -1198,13 +1228,17 @@
                 <a href="mailto:info@chihying.org?subject=詢問ESG永續報告書撰寫服務" class="btn-mail">
                     <i class="fa-solid fa-envelope" style="margin-right:10px;"></i>發送 Email 諮詢
                 </a>
-                <a href="https://lin.ee/M_565lgsrt_GW" target="_blank" class="btn-line">
+                <a href="https://lin.ee/ZVQk5XS" target="_blank" class="btn-line">
                     <i class="fa-brands fa-line" style="margin-right:10px;"></i>加入 LINE 官方帳號
                 </a>
             </div>
             
             <div class="cta-footer-info">
-                <a href="tel:063120098" class="info-row">
+                <span class="info-row info-phone-desktop">
+                    <i class="fa-solid fa-phone"></i>
+                    <span>06-3120098</span>
+                </span>
+                <a href="tel:063120098" class="info-row info-phone-mobile">
                     <i class="fa-solid fa-phone"></i>
                     <span>06-3120098</span>
                 </a>
@@ -1224,6 +1258,31 @@
     <!-- 引入 AOS 滾動動畫庫 JavaScript -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+        // 固定導覽列使用自訂滑動，避免手機版錨點直接跳動或被導覽列遮住
+        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+            anchor.addEventListener('click', function(event) {
+                var targetId = anchor.getAttribute('href');
+                if (!targetId || targetId === '#') return;
+
+                var target = targetId === '#top' ? document.body : document.querySelector(targetId);
+                if (!target) return;
+
+                event.preventDefault();
+
+                var nav = document.querySelector('.nav');
+                var navHeight = nav ? nav.offsetHeight : 0;
+                var extraGap = targetId === '#top' ? 0 : 12;
+                var targetTop = targetId === '#top'
+                    ? 0
+                    : target.getBoundingClientRect().top + window.pageYOffset - navHeight - extraGap;
+
+                window.scrollTo({
+                    top: Math.max(targetTop, 0),
+                    behavior: 'smooth'
+                });
+            });
+        });
+
         AOS.init({
             once: true,
             duration: 900,       

@@ -49,6 +49,11 @@
             padding: 0;
         }
 
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
         body {
             background-color: var(--bg-light-tint);
             color: var(--text-dark);
@@ -56,27 +61,40 @@
             font-size: 17px; 
             font-weight: 500; 
             overflow-x: hidden;
+            padding-top: 80px; /* 因導覽列改為 fixed，避免內容被蓋住 */
+        }
+
+        img, svg, video {
+            max-width: 100%;
+        }
+
+        section[id] {
+            scroll-margin-top: 105px; /* 點擊導覽錨點時，避免標題被固定導覽列遮住 */
         }
 
         /* 導覽列 */
         .nav {
-            background: rgba(245, 248, 252, 0.95);
+            background: rgba(245, 248, 252, 0.96);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid #d2dfef;
             padding: 0 40px;
-            height: 80px;
+            min-height: 80px;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            position: sticky;
+            position: fixed; /* 手機與桌機都固定在畫面上方 */
             top: 0;
-            z-index: 100;
+            left: 0;
+            z-index: 9999;
         }
 
         .nav-logo {
             display: flex;
             align-items: center;
             gap: 14px;
+            min-width: 0;
         }
 
         .nav-logo-img {
@@ -90,11 +108,13 @@
             font-weight: 700;
             color: var(--text-dark);
             letter-spacing: 0.5px;
+            line-height: 1.35;
         }
 
         .nav-links {
             display: flex;
             gap: 15px;
+            min-width: 0;
         }
 
         .nav-link {
@@ -123,6 +143,7 @@
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
+            white-space: nowrap;
         }
 
         .nav-cta:hover {
@@ -572,6 +593,322 @@
             .timeline-container::after { left: 21px; right: auto; }
             .timeline-right { left: 0; }
         }
+
+        /* 手機版修正：避免跑版、導覽列固定、區塊留白與字級重新調整 */
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+                padding-top: 118px;
+            }
+
+            section[id] {
+                scroll-margin-top: 135px;
+            }
+
+            .nav {
+                min-height: 118px;
+                padding: 10px 14px;
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) auto;
+                grid-template-areas:
+                    "logo cta"
+                    "links links";
+                gap: 8px 10px;
+                align-items: center;
+            }
+
+            .nav-logo {
+                grid-area: logo;
+                gap: 8px;
+            }
+
+            .nav-logo-img {
+                height: 34px;
+                flex: 0 0 auto;
+            }
+
+            .nav-name {
+                font-size: 14px;
+                line-height: 1.35;
+                letter-spacing: 0;
+                word-break: keep-all;
+                overflow-wrap: anywhere;
+            }
+
+            .nav-cta {
+                grid-area: cta;
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+
+            .nav-links {
+                grid-area: links;
+                width: 100%;
+                gap: 8px;
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+                padding: 2px 0 4px;
+                scrollbar-width: none;
+            }
+
+            .nav-links::-webkit-scrollbar {
+                display: none;
+            }
+
+            .nav-link {
+                flex: 0 0 auto;
+                font-size: 14px;
+                padding: 6px 10px;
+                background: rgba(255, 255, 255, 0.55);
+            }
+
+            .hero {
+                padding-top: 64px;
+            }
+
+            .hero-container {
+                padding: 0 20px;
+                margin-bottom: 42px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+                line-height: 1.35;
+            }
+
+            .hero-sub {
+                font-size: 17px;
+                margin-bottom: 30px;
+            }
+
+            .chips-container {
+                gap: 8px;
+            }
+
+            .tag-chip {
+                font-size: 14px;
+                padding: 5px 12px;
+            }
+
+            .hero-town-scene {
+                height: 210px;
+            }
+
+            .town-objects-front,
+            .town-objects-mid,
+            .town-objects-back {
+                height: 160px;
+                bottom: 48px;
+            }
+
+            .flat-building::before {
+                left: 10px;
+                right: 10px;
+                background-size: 12px 18px;
+            }
+
+            .fb-b1 { left: 0%; width: 62px; height: 130px; }
+            .fb-b2 { left: 16%; width: 70px; height: 100px; }
+            .fb-b3 { right: 4%; width: 70px; height: 120px; }
+            .fb-f1 { left: 8%; width: 58px; height: 115px; }
+            .fb-f2 { left: 42%; width: 78px; height: 90px; }
+            .fb-f2::after {
+                top: -25px;
+                border-left-width: 39px;
+                border-right-width: 39px;
+                border-bottom-width: 25px;
+            }
+            .fb-f3 { right: 18%; width: 62px; height: 112px; }
+            .fb-f3::after { left: 18px; font-size: 20px; }
+
+            .flat-tree {
+                transform: scale(0.82);
+                transform-origin: bottom center;
+            }
+
+            .wind-turbine {
+                height: 95px;
+            }
+
+            .wind-turbine.wt-right {
+                height: 118px;
+                right: 22%;
+            }
+
+            .wind-turbine.wt-back {
+                height: 78px;
+            }
+
+            .section {
+                padding: 72px 20px;
+            }
+
+            .section-container {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .section-title {
+                font-size: 30px;
+                line-height: 1.45;
+            }
+
+            .lead-text {
+                font-size: 17px;
+                margin-bottom: 38px;
+            }
+
+            .accent-line {
+                margin-bottom: 30px;
+            }
+
+            .esg-grid,
+            .sit-layout,
+            .use-grid {
+                gap: 20px;
+            }
+
+            .esg-card,
+            .sit-box,
+            .use-item,
+            .faq-item,
+            .target-box,
+            .timeline-content {
+                padding: 26px 22px;
+            }
+
+            .esg-text-icon {
+                font-size: 46px;
+            }
+
+            .sit-box p,
+            .target-li,
+            .timeline-content p,
+            .use-item p,
+            .faq-a {
+                font-size: 16px;
+            }
+
+            .target-li {
+                gap: 10px;
+            }
+
+            .timeline {
+                margin-top: 35px;
+            }
+
+            .timeline-container {
+                padding-left: 62px;
+                padding-right: 0;
+            }
+
+            .timeline::after {
+                left: 22px;
+            }
+
+            .timeline-container::after {
+                left: 12px;
+            }
+
+            .timeline-content h3 {
+                font-size: 20px;
+                align-items: flex-start;
+            }
+
+            .cta-section {
+                padding: 78px 20px;
+            }
+
+            .cta-title {
+                font-size: 31px;
+                line-height: 1.45;
+            }
+
+            .cta-sub {
+                font-size: 17px;
+                margin-bottom: 34px;
+            }
+
+            .cta-btns {
+                flex-direction: column;
+                align-items: center;
+                gap: 14px;
+                margin-bottom: 42px;
+            }
+
+            .btn-mail,
+            .btn-line {
+                width: 100%;
+                max-width: 340px;
+                padding: 14px 18px;
+                font-size: 17px;
+            }
+
+            .cta-footer-info {
+                padding-top: 36px;
+                gap: 16px;
+                align-items: flex-start;
+            }
+
+            .info-row {
+                width: 100%;
+                font-size: 17px;
+                line-height: 1.5;
+                align-items: flex-start;
+            }
+
+            .footer {
+                padding: 22px 18px;
+                font-size: 13px;
+                line-height: 1.6;
+            }
+        }
+
+        @media (max-width: 420px) {
+            body {
+                padding-top: 128px;
+            }
+
+            section[id] {
+                scroll-margin-top: 145px;
+            }
+
+            .nav {
+                min-height: 128px;
+            }
+
+            .nav-name {
+                font-size: 13px;
+            }
+
+            .nav-cta {
+                padding: 7px 10px;
+                font-size: 13px;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .section-title,
+            .cta-title {
+                font-size: 27px;
+            }
+
+            .hero-town-scene {
+                height: 190px;
+            }
+
+            .car-1 {
+                width: 56px;
+            }
+
+            .car-2 {
+                width: 48px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -867,9 +1204,9 @@
             </div>
             
             <div class="cta-footer-info">
-                <a href="tel:06312009" class="info-row">
+                <a href="tel:063120098" class="info-row">
                     <i class="fa-solid fa-phone"></i>
-                    <span>06-312009</span>
+                    <span>06-3120098</span>
                 </a>
                 <a href="https://www.google.com/maps/search/?api=1&query=臺南市織英教育與公益協會" target="_blank" class="info-row">
                     <i class="fa-solid fa-location-dot"></i>

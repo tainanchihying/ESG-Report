@@ -2,99 +2,76 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESG 永續報告書服務 | 臺南市織英教育與公益協會</title>
-    
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght=500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
 
     <style>
         :root {
             --bg-deep: #0a1630;
-            --bg-light-tint: #f5f8fc;
             --brand-blue: #1a5fa8;
             --brand-cyan: #3ca0f5;
             --text-dark: #121824;
             --text-muted: #4a5568;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Serif TC', serif !important; }
-        html, body { background-color: var(--bg-light-tint); overflow-x: hidden; width: 100%; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Serif TC', serif; }
+        html, body { width: 100%; overflow-x: hidden; background-color: #f5f8fc; }
 
-        /* 導覽列：永久置頂 */
+        /* 1. 導覽列固定置頂 */
         .nav {
-            background: rgba(245, 248, 252, 0.98);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid #d2dfef;
-            padding: 0 40px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: fixed; /* 修正：改為 fixed 固定 */
-            top: 0;
-            width: 100%;
-            z-index: 1000;
+            position: fixed; top: 0; width: 100%; height: 80px; z-index: 1000;
+            background: rgba(245, 248, 252, 0.95);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 40px; border-bottom: 1px solid #d2dfef;
         }
-
-        /* 內容推開 nav 的高度 */
         body { padding-top: 80px; }
 
-        .nav-logo { display: flex; align-items: center; gap: 14px; }
-        .nav-logo-img { height: 45px; width: auto; }
-        .nav-name { font-size: 18px; font-weight: 700; }
-        
-        .nav-cta {
-            background: var(--brand-blue); color: white; padding: 10px 24px; border-radius: 4px; 
-            font-weight: 700; text-decoration: none; transition: 0.3s;
-        }
-        .nav-cta:hover { background: var(--brand-cyan); }
+        /* 2. 頁面內容樣式 */
+        .hero { background: var(--bg-deep); color: white; padding: 80px 20px; text-align: center; }
+        .hero h1 { font-size: 40px; margin-bottom: 30px; }
 
-        /* 標籤田字排版 */
+        /* 3. 手機版田字排版 */
         .chips-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* 田字格 */
-            gap: 10px;
-            max-width: 300px;
-            margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
+            max-width: 400px; margin: 0 auto;
         }
         .tag-chip {
-            font-size: 14px; font-weight: 600; padding: 8px 0; border-radius: 4px;
-            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white; text-align: center;
+            padding: 15px; border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 8px; font-weight: 600;
         }
 
-        /* 其他原有樣式... (已保持一致) */
-        .hero { background: var(--bg-deep); color: white; padding: 100px 20px; text-align: center; }
-        .section { padding: 80px 20px; }
-        .section-container { max-width: 1000px; margin: 0 auto; }
-
-        /* 勾勾卡片動畫 */
+        /* 4. 絲滑動畫區域 */
+        .section { padding: 80px 20px; max-width: 1000px; margin: 0 auto; }
         .target-box { background: #fff; padding: 40px; border-radius: 12px; border: 1px solid #d2dfef; }
-        .target-li { display: flex; gap: 15px; margin-bottom: 20px; }
-        .target-li i { color: #2e7d32; font-size: 20px; margin-top: 4px; }
+        .target-li { display: flex; gap: 15px; margin-bottom: 25px; }
+        .target-li i { color: #2e7d32; font-size: 24px; }
+
+        /* 5. 聯絡資訊 */
+        .cta-section { background: var(--bg-deep); color: white; padding: 60px 20px; text-align: center; }
+        .info-row { display: block; font-size: 20px; color: white; margin-bottom: 20px; text-decoration: none; }
+        .btn-line { 
+            display: inline-block; background: #06c755; color: white; 
+            padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: 700;
+        }
 
         @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .nav { padding: 0 15px; }
-            .nav-name { font-size: 14px; }
+            .nav { padding: 0 20px; }
+            .hero h1 { font-size: 28px; }
         }
     </style>
 </head>
 <body>
 
     <nav class="nav">
-        <div class="nav-logo">
-            <img src="logo.png" alt="Logo" class="nav-logo-img">
-            <span class="nav-name">織英教育與公益協會</span>
-        </div>
-        <a href="mailto:info@chihying.org" class="nav-cta">預約諮詢</a>
+        <div class="nav-logo"><strong>織英教育與公益協會</strong></div>
+        <a href="mailto:info@chihying.org" style="background:var(--brand-blue); color:white; padding:10px 20px; border-radius:4px; text-decoration:none;">預約諮詢</a>
     </nav>
 
     <section class="hero">
         <h1>盤點企業行動，回應永續需求</h1>
-        <br>
         <div class="chips-container">
             <div class="tag-chip">供應鏈合作</div>
             <div class="tag-chip">客戶要求</div>
@@ -103,36 +80,34 @@
         </div>
     </section>
 
+    <!-- 絲滑動畫區塊 -->
     <section class="section">
-        <div class="section-container">
-            <div class="target-box" data-aos="fade-up"> <div class="target-li">
-                    <i class="fa-solid fa-circle-check"></i>
-                    <p>有員工照顧、節能改善或社區參與的行動紀錄。</p>
-                </div>
-                <div class="target-li">
-                    <i class="fa-solid fa-circle-check"></i>
-                    <p>開始被客戶詢問 ESG 資訊，需要清楚的文件來回應。</p>
-                </div>
-                <div class="target-li">
-                    <i class="fa-solid fa-circle-check"></i>
-                    <p>希望完成第一份報告書，從現有資料出發即可。</p>
-                </div>
+        <div class="target-box" data-aos="fade-up">
+            <div class="target-li">
+                <i class="fa-solid fa-circle-check"></i>
+                <p>有員工照顧、節能改善或社區參與的行動紀錄。</p>
+            </div>
+            <div class="target-li">
+                <i class="fa-solid fa-circle-check"></i>
+                <p>開始被客戶詢問 ESG 資訊，需要清楚的文件來回應。</p>
+            </div>
+            <div class="target-li">
+                <i class="fa-solid fa-circle-check"></i>
+                <p>希望完成第一份報告書，從現有資料出發即可。</p>
             </div>
         </div>
     </section>
 
-    <section class="section" style="background: var(--bg-deep); color: white; text-align: center;">
-        <a href="tel:063120098" class="info-row" style="color:white; display:block; margin-bottom:20px;">
-            <i class="fa-solid fa-phone"></i> 06-3120098
+    <footer class="cta-section">
+        <a href="tel:063120098" class="info-row"><i class="fa-solid fa-phone"></i> 06-3120098</a>
+        <a href="https://line.me/R/ti/p/@M_565lgsrt_GW" class="btn-line">
+            <i class="fa-brands fa-line"></i> 加入 LINE 官方帳號諮詢
         </a>
-        <a href="https://line.me/R/ti/p/@M_565lgsrt_GW" target="_blank" class="btn-line" style="background:#06c755; color:white; padding:15px 30px; text-decoration:none; border-radius:50px;">
-            <i class="fa-brands fa-line"></i> 加入 LINE 好友諮詢
-        </a>
-    </section>
+    </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ once: false }); // 設為 false 讓滑動回來時也能再次觸發動畫
+        AOS.init({ duration: 1000, once: false });
     </script>
 </body>
 </html>

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no,address=no,email=no">
     <title>ESG 永續報告書服務 | 臺南市織英教育與公益協會</title>
     
     <!-- 引入 Google 字體：思源襯線體 -->
@@ -62,6 +63,14 @@
             font-weight: 500; 
             overflow-x: hidden;
             padding-top: 80px; /* 因導覽列改為 fixed，避免內容被蓋住 */
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* 防止手機點擊導覽後，瀏覽器短暫把畫面鎖在固定導覽列上 */
+        html,
+        body {
+            min-height: 100%;
+            touch-action: pan-x pan-y;
         }
 
         img, svg, video {
@@ -577,13 +586,30 @@
         .btn-line:hover { background: #05b34c; box-shadow: 0 4px 15px rgba(6, 199, 85, 0.35); }
         
         .cta-footer-info { display: flex; flex-direction: column; gap: 22px; align-items: center; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 50px; max-width: 700px; margin: 0 auto; }
-        .info-row { display: flex; align-items: center; gap: 14px; font-size: 20px; color: rgba(255,255,255,0.95); font-weight: 600; text-decoration: none; transition: color 0.3s; }
-        .info-row i { color: var(--brand-cyan); font-size: 22px; width: 24px; text-align: center; }
-        .info-row:visited, .info-row:active, .info-row:focus { color: rgba(255,255,255,0.95); }
+        .info-row { display: flex; align-items: center; gap: 14px; font-size: 20px; color: rgba(255,255,255,0.95) !important; font-weight: 600; text-decoration: none !important; transition: color 0.3s; -webkit-tap-highlight-color: transparent; }
+        .info-row span { color: rgba(255,255,255,0.95) !important; -webkit-text-fill-color: rgba(255,255,255,0.95) !important; text-decoration: none !important; }
+        .info-row i { color: var(--brand-cyan); -webkit-text-fill-color: var(--brand-cyan); font-size: 22px; width: 24px; text-align: center; }
+        a.info-row:link,
+        a.info-row:visited,
+        a.info-row:active,
+        a.info-row:focus,
+        a.info-row:hover { color: rgba(255,255,255,0.95) !important; text-decoration: none !important; }
+        .info-row a[x-apple-data-detectors],
+        .info-row span[x-apple-data-detectors],
+        a.info-row[x-apple-data-detectors] {
+            color: rgba(255,255,255,0.95) !important;
+            -webkit-text-fill-color: rgba(255,255,255,0.95) !important;
+            text-decoration: none !important;
+        }
         .info-phone-mobile { display: none; }
         .info-phone-desktop { display: flex; cursor: default; }
-        
-        a.info-row:hover { color: var(--brand-cyan); }
+
+        @media (hover: hover) and (pointer: fine) {
+            a.info-row:hover,
+            a.info-row:hover span {
+                color: var(--brand-cyan) !important;
+            }
+        }
 
         .footer { background: #050b18; color: rgba(255, 255, 255, 0.4); font-size: 14px; text-align: center; padding: 25px 40px; border-top: 1px solid rgba(255,255,255,0.05); font-weight: 500; }
 
@@ -874,10 +900,14 @@
                 align-items: flex-start;
             }
 
-            .info-row:visited,
-            .info-row:active,
-            .info-row:focus {
-                color: rgba(255,255,255,0.95);
+            a.info-row:link,
+            a.info-row:visited,
+            a.info-row:active,
+            a.info-row:focus,
+            a.info-row:hover,
+            .info-row span {
+                color: rgba(255,255,255,0.95) !important;
+                -webkit-text-fill-color: rgba(255,255,255,0.95) !important;
             }
 
             .info-phone-desktop {
@@ -956,7 +986,7 @@
             <a class="nav-link" href="#usage">用途與對象</a>
             <a class="nav-link" href="#faq">常見問題</a>
         </div>
-        <a href="mailto:info@chihying.org?subject=詢問ESG永續報告書撰寫服務" class="nav-cta" style="text-decoration:none;">預約諮詢</a>
+        <a href="#contact" class="nav-cta js-scroll-link" style="text-decoration:none;">預約諮詢</a>
     </nav>
 
     <!-- 01 HERO -->
@@ -1219,7 +1249,7 @@
     </section>
 
     <!-- 08 CTA -->
-    <section class="cta-section" data-aos="fade-up" data-aos-duration="1200">
+    <section id="contact" class="cta-section" data-aos="fade-up" data-aos-duration="1200">
         <div class="cta-container">
             <h2 class="cta-title">讓企業行動，成為可被看見的永續成果</h2>
             <p class="cta-sub">如果您的企業已累積員工照顧、公益參與、環境友善或治理相關行動，歡迎聯繫我們，一起盤點第一步。</p>
@@ -1259,29 +1289,67 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         // 固定導覽列使用自訂滑動，避免手機版錨點直接跳動或被導覽列遮住
+        function unlockPageScroll() {
+            document.documentElement.style.overflowY = 'auto';
+            document.body.style.overflowY = 'auto';
+            document.body.style.position = 'static';
+            document.body.style.touchAction = 'pan-x pan-y';
+        }
+
+        function scrollToTarget(targetId, updateHash) {
+            if (!targetId || targetId === '#') return;
+
+            var target = targetId === '#top' ? document.body : document.querySelector(targetId);
+            if (!target) return;
+
+            unlockPageScroll();
+
+            var nav = document.querySelector('.nav');
+            var navHeight = nav ? nav.offsetHeight : 0;
+            var extraGap = targetId === '#top' ? 0 : 12;
+            var targetTop = targetId === '#top'
+                ? 0
+                : target.getBoundingClientRect().top + window.pageYOffset - navHeight - extraGap;
+
+            window.scrollTo({
+                top: Math.max(targetTop, 0),
+                behavior: 'smooth'
+            });
+
+            if (updateHash && history.pushState) {
+                history.pushState(null, '', targetId === '#top' ? window.location.pathname + window.location.search : targetId);
+            }
+
+            // iOS/Android 上點擊固定導覽列後，移除焦點可避免卡在 :hover/:focus 狀態造成不好滑
+            if (document.activeElement && typeof document.activeElement.blur === 'function') {
+                document.activeElement.blur();
+            }
+
+            setTimeout(unlockPageScroll, 350);
+            setTimeout(unlockPageScroll, 900);
+        }
+
         document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
             anchor.addEventListener('click', function(event) {
                 var targetId = anchor.getAttribute('href');
                 if (!targetId || targetId === '#') return;
 
-                var target = targetId === '#top' ? document.body : document.querySelector(targetId);
-                if (!target) return;
-
                 event.preventDefault();
-
-                var nav = document.querySelector('.nav');
-                var navHeight = nav ? nav.offsetHeight : 0;
-                var extraGap = targetId === '#top' ? 0 : 12;
-                var targetTop = targetId === '#top'
-                    ? 0
-                    : target.getBoundingClientRect().top + window.pageYOffset - navHeight - extraGap;
-
-                window.scrollTo({
-                    top: Math.max(targetTop, 0),
-                    behavior: 'smooth'
-                });
-            });
+                scrollToTarget(targetId, true);
+            }, { passive: false });
         });
+
+        // 如果手機是用帶 #contact / #about 的網址打開，也重新校正位置並保持可滑動
+        window.addEventListener('load', function() {
+            unlockPageScroll();
+            if (window.location.hash) {
+                setTimeout(function() {
+                    scrollToTarget(window.location.hash, false);
+                }, 80);
+            }
+        });
+
+        window.addEventListener('pageshow', unlockPageScroll);
 
         AOS.init({
             once: true,

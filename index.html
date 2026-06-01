@@ -52,7 +52,9 @@
 
         html {
             scroll-behavior: smooth;
+            scroll-padding-top: 105px;
             overflow-x: hidden;
+            height: auto;
         }
 
         body {
@@ -62,15 +64,12 @@
             font-size: 17px; 
             font-weight: 500; 
             overflow-x: hidden;
+            overflow-y: auto;
             padding-top: 80px; /* 因導覽列改為 fixed，避免內容被蓋住 */
             -webkit-overflow-scrolling: touch;
-        }
-
-        /* 防止手機點擊導覽後，瀏覽器短暫把畫面鎖在固定導覽列上 */
-        html,
-        body {
-            min-height: 100%;
-            touch-action: pan-x pan-y;
+            touch-action: auto;
+            overscroll-behavior-y: auto;
+            position: relative;
         }
 
         img, svg, video {
@@ -587,6 +586,7 @@
         
         .cta-footer-info { display: flex; flex-direction: column; gap: 22px; align-items: center; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 50px; max-width: 700px; margin: 0 auto; }
         .info-row { display: flex; align-items: center; gap: 14px; font-size: 20px; color: rgba(255,255,255,0.95) !important; font-weight: 600; text-decoration: none !important; transition: color 0.3s; -webkit-tap-highlight-color: transparent; }
+        .info-row, .info-row *,
         .info-row span { color: rgba(255,255,255,0.95) !important; -webkit-text-fill-color: rgba(255,255,255,0.95) !important; text-decoration: none !important; }
         .info-row i { color: var(--brand-cyan); -webkit-text-fill-color: var(--brand-cyan); font-size: 22px; width: 24px; text-align: center; }
         a.info-row:link,
@@ -628,9 +628,15 @@
 
         /* 手機版修正：避免跑版、導覽列固定、區塊留白與字級重新調整 */
         @media (max-width: 768px) {
+            html {
+                scroll-padding-top: 135px;
+            }
+
             body {
                 font-size: 16px;
                 padding-top: 118px;
+                overflow-y: auto;
+                touch-action: auto;
             }
 
             section[id] {
@@ -926,6 +932,10 @@
         }
 
         @media (max-width: 420px) {
+            html {
+                scroll-padding-top: 145px;
+            }
+
             body {
                 padding-top: 128px;
             }
@@ -1288,68 +1298,14 @@
     <!-- 引入 AOS 滾動動畫庫 JavaScript -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // 固定導覽列使用自訂滑動，避免手機版錨點直接跳動或被導覽列遮住
-        function unlockPageScroll() {
-            document.documentElement.style.overflowY = 'auto';
-            document.body.style.overflowY = 'auto';
-            document.body.style.position = 'static';
-            document.body.style.touchAction = 'pan-x pan-y';
-        }
-
-        function scrollToTarget(targetId, updateHash) {
-            if (!targetId || targetId === '#') return;
-
-            var target = targetId === '#top' ? document.body : document.querySelector(targetId);
-            if (!target) return;
-
-            unlockPageScroll();
-
-            var nav = document.querySelector('.nav');
-            var navHeight = nav ? nav.offsetHeight : 0;
-            var extraGap = targetId === '#top' ? 0 : 12;
-            var targetTop = targetId === '#top'
-                ? 0
-                : target.getBoundingClientRect().top + window.pageYOffset - navHeight - extraGap;
-
-            window.scrollTo({
-                top: Math.max(targetTop, 0),
-                behavior: 'smooth'
-            });
-
-            if (updateHash && history.pushState) {
-                history.pushState(null, '', targetId === '#top' ? window.location.pathname + window.location.search : targetId);
-            }
-
-            // iOS/Android 上點擊固定導覽列後，移除焦點可避免卡在 :hover/:focus 狀態造成不好滑
-            if (document.activeElement && typeof document.activeElement.blur === 'function') {
-                document.activeElement.blur();
-            }
-
-            setTimeout(unlockPageScroll, 350);
-            setTimeout(unlockPageScroll, 900);
-        }
-
-        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-            anchor.addEventListener('click', function(event) {
-                var targetId = anchor.getAttribute('href');
-                if (!targetId || targetId === '#') return;
-
-                event.preventDefault();
-                scrollToTarget(targetId, true);
-            }, { passive: false });
+        // 手機版滑動卡住修正：不攔截錨點點擊，改用瀏覽器原生捲動。
+        // CSS 的 scroll-behavior + scroll-padding-top 會處理平滑滑動與固定導覽列遮擋問題。
+        window.addEventListener('pageshow', function() {
+            document.documentElement.style.overflowY = '';
+            document.body.style.overflowY = '';
+            document.body.style.position = '';
+            document.body.style.touchAction = '';
         });
-
-        // 如果手機是用帶 #contact / #about 的網址打開，也重新校正位置並保持可滑動
-        window.addEventListener('load', function() {
-            unlockPageScroll();
-            if (window.location.hash) {
-                setTimeout(function() {
-                    scrollToTarget(window.location.hash, false);
-                }, 80);
-            }
-        });
-
-        window.addEventListener('pageshow', unlockPageScroll);
 
         AOS.init({
             once: true,

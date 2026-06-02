@@ -10,9 +10,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght=500;600;700&display=swap">
     <!-- 引入 Font Awesome 圖標 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- 引入 AOS 滾動動畫庫 CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
-
     <style>
         :root {
             --bg-deep: #0a1630;         /* 織英深藍 */
@@ -83,8 +80,7 @@
         /* 導覽列 */
         .nav {
             background: rgba(245, 248, 252, 0.96);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            /* 移除 blur 濾鏡，避免固定導覽列造成手機與桌機捲動卡頓 */
             border-bottom: 1px solid #d2dfef;
             padding: 0 40px;
             min-height: 80px;
@@ -381,6 +377,7 @@
 
         .turbine-blades {
             position: absolute;
+            will-change: transform;
             top: 0; left: -24px;
             width: 50px; height: 50px;
             animation: spinTurbine 6s linear infinite;
@@ -408,6 +405,7 @@
         /* 🚗 繽紛彩色實心色塊小車群（Bug 已完全修正！） */
         .flat-car {
             position: absolute;
+            will-change: transform;
             border-radius: 6px 12px 4px 4px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
             display: flex;
@@ -440,7 +438,7 @@
             width: 65px; height: 26px;
             background: #2e7d32 !important; /* 修正後100%實心環境綠 */
             z-index: 25;
-            animation: driveCar 14s linear infinite, bumpCar 0.2s linear infinite alternate;
+            animation: driveCarSmooth 14s linear infinite;
         }
         
         /* 🚙 車輛 2：前景中型藍車（社會責任） */
@@ -450,7 +448,7 @@
             width: 55px; height: 24px;
             background: #1565c0 !important; /* 實心質感社會藍 */
             z-index: 22;
-            animation: driveCar 19s linear infinite, bumpCar 0.25s linear infinite alternate;
+            animation: driveCarSmooth 19s linear infinite;
             animation-delay: 3s;
         }
 
@@ -462,23 +460,20 @@
             background: #f5b041 !important; /* 實心經濟亮黃 */
             z-index: 12;
             opacity: 0.9;
-            animation: driveCar 25s linear infinite;
+            animation: driveCarSmooth 25s linear infinite;
         }
         .car-3 .car-wheel { width: 8px; height: 8px; margin-bottom: -4px; }
         .car-3::before { width: 13px; height: 6px; top: 2px; left: 6px; }
 
-        @keyframes driveCar {
-            0% { left: -100px; }
-            100% { left: 102%; }
-        }
-        @keyframes bumpCar {
-            0% { transform: translateY(0px); }
-            100% { transform: translateY(-1.5px); }
+        @keyframes driveCarSmooth {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(calc(100vw + 260px), 0, 0); }
         }
 
         /* 🍃 天空飄落的立體綠葉 */
         .leaf-fall {
             position: absolute;
+            will-change: transform, opacity;
             color: var(--town-green-2);
             font-size: 20px;
             pointer-events: none;
@@ -707,6 +702,16 @@
                 font-size: 14px;
                 padding: 6px 10px;
                 background: rgba(255, 255, 255, 0.55);
+            }
+
+            /* 手機效能優化：減少持續動畫造成的捲動卡頓 */
+            .leaf-fall,
+            .car-3 {
+                display: none;
+            }
+
+            .turbine-blades {
+                animation-duration: 10s !important;
             }
 
             .hero {
@@ -1043,7 +1048,7 @@
     </nav>
 
     <!-- 01 HERO -->
-    <section class="hero" data-aos="fade-in" data-aos-duration="1000">
+    <section class="hero">
         <div class="hero-container">
             <div class="hero-badge">ESG 永續報告書撰寫服務</div>
             <h1>盤點企業行動，<br><em>回應永續需求</em></h1>
@@ -1144,7 +1149,7 @@
 
     <!-- 02 什麼是 ESG -->
     <section id="about" class="section section-white">
-        <div class="section-container" data-aos="fade-up" data-aos-duration="1000">
+        <div class="section-container">
             <span class="section-label">ABOUT ESG</span>
             <h2 class="section-title">三個字母，說的是企業對<br>環境、社會與治理的責任</h2>
             <div class="accent-line"></div>
@@ -1173,16 +1178,16 @@
     <!-- 03 企業真實情境 -->
     <section id="situation" class="section section-soft">
         <div class="section-container">
-            <span class="section-label" data-aos="fade-up" data-aos-duration="800">REAL SITUATION</span>
-            <h2 class="section-title" data-aos="fade-up" data-aos-duration="800">許多企業其實已經在做了，<br>幕後還沒有一份文件能說清楚</h2>
-            <div class="accent-line" data-aos="fade-up" data-aos-duration="800"></div>
+            <span class="section-label">REAL SITUATION</span>
+            <h2 class="section-title">許多企業其實已經在做了，<br>幕後還沒有一份文件能說清楚</h2>
+            <div class="accent-line"></div>
             
             <div class="sit-layout">
-                <div class="sit-box" data-aos="fade-right" data-aos-duration="1100">
+                <div class="sit-box">
                     <div class="sit-tag">供應鏈合作</div>
                     <p>合作夥伴要求提交 ESG 問卷，<strong>三十幾題需要填寫</strong>。負責人知道公司做了很多，但資料分散在各部門，沒辦法在短時間整理出來。</p>
                 </div>
-                <div class="sit-box" data-aos="fade-left" data-aos-duration="1100">
+                <div class="sit-box">
                     <div class="sit-tag">補助申請</div>
                     <p>評審詢問是否有永續行動的佐證資料，但公司<strong>從未系統整理過</strong>員工照顧、節能或社區參與的紀錄，補助機會就這樣流失了。</p>
                 </div>
@@ -1193,13 +1198,13 @@
     <!-- 04 服務流程 -->
     <section id="process" class="section section-white process-section">
         <div class="section-container">
-            <span class="section-label" data-aos="fade-up" data-aos-duration="800">OUR PROCESS</span>
-            <h2 class="section-title" data-aos="fade-up" data-aos-duration="800">輕鬆入門，逐步完成</h2>
-            <p class="process-subtitle" data-aos="fade-up" data-aos-duration="800">三次到場，從 ESG 基礎認識、資料分工到報告撰寫，陪企業一步一步完成永續報告書。</p>
-            <div class="accent-line" data-aos="fade-up" data-aos-duration="800"></div>
+            <span class="section-label">OUR PROCESS</span>
+            <h2 class="section-title">輕鬆入門，逐步完成</h2>
+            <p class="process-subtitle">三次到場，從 ESG 基礎認識、資料分工到報告撰寫，陪企業一步一步完成永續報告書。</p>
+            <div class="accent-line"></div>
             
             <div class="timeline">
-                <div class="timeline-container timeline-left" data-aos="fade-right" data-aos-duration="1000">
+                <div class="timeline-container timeline-left">
                     <div class="timeline-content">
                         <h3><span>01</span> 簡單開始</h3>
                         <div class="step-service">啟始會議</div>
@@ -1211,7 +1216,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="timeline-container timeline-right" data-aos="fade-left" data-aos-duration="1000">
+                <div class="timeline-container timeline-right">
                     <div class="timeline-content">
                         <h3><span>02</span> 分工清楚</h3>
                         <div class="step-service">教育訓練</div>
@@ -1223,7 +1228,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="timeline-container timeline-left" data-aos="fade-right" data-aos-duration="1000">
+                <div class="timeline-container timeline-left">
                     <div class="timeline-content">
                         <h3><span>03</span> 陪你完成</h3>
                         <div class="step-service">初稿討論與報告撰寫</div>
@@ -1237,7 +1242,7 @@
                 </div>
             </div>
 
-            <div class="process-note" data-aos="fade-up" data-aos-duration="900">
+            <div class="process-note">
                 不需要企業一開始就有完整永續系統，<strong>從現有資料出發</strong>，也能整理成清楚、可回應客戶與供應鏈需求的報告內容。
             </div>
         </div>
@@ -1246,32 +1251,32 @@
     <!-- 05 報告書用途 與 06 適合對象 -->
     <section id="usage" class="section section-soft">
         <div class="section-container">
-            <div data-aos="fade-up" data-aos-duration="800">
+            <div>
                 <span class="section-label">PURPOSE & TARGET</span>
                 <h2 class="section-title">一份報告書，用在不同場合</h2>
                 <div class="accent-line"></div>
             </div>
             
             <div class="use-grid">
-                <div class="use-item" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                <div class="use-item">
                     <h3>直接對應客戶 ESG 問卷</h3>
                     <p>不需每次臨時整理，問卷回覆有所依據，不讓合作因文件缺失而卡關。</p>
                 </div>
-                <div class="use-item" data-aos="fade-up" data-aos-duration="800" data-aos-delay="250">
+                <div class="use-item">
                     <h3>作為永續行動佐證資料</h3>
                     <p>讓企業既有行動成為計畫申請的加分依據，不讓努力白費。</p>
                 </div>
-                <div class="use-item" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+                <div class="use-item">
                     <h3>清楚回應永續相關詢問</h3>
                     <p>不再只能口頭說明，提供清楚的文件讓客戶有所依據。</p>
                 </div>
-                <div class="use-item" data-aos="fade-up" data-aos-duration="800" data-aos-delay="550">
+                <div class="use-item">
                     <h3>官網、簡報、年報的素材</h3>
                     <p>一份文件延伸成多種對外溝通內容，省去重複整理的時間。</p>
                 </div>
             </div>
 
-            <div class="target-box" style="margin-top: 50px;" data-aos="fade-up" data-aos-duration="900">
+            <div class="target-box" style="margin-top: 50px;">
                 <div class="target-grid">
                     <div class="target-li">
                         <i class="fa-solid fa-circle-check"></i>
@@ -1293,26 +1298,26 @@
     <!-- 07 FAQ -->
     <section id="faq" class="section section-white">
         <div class="section-container">
-            <div data-aos="fade-up" data-aos-duration="800">
+            <div>
                 <span class="section-label">FAQ</span>
                 <h2 class="section-title">你可能想知道的事</h2>
                 <div class="accent-line"></div>
             </div>
             
             <div class="faq-block">
-                <div class="faq-item" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                <div class="faq-item">
                     <div class="faq-q">Q1. 我們公司第一次做 ESG 報告書，也適合嗎？</div>
                     <div class="faq-a">適合。本服務從 ESG 基礎認識與資料盤點開始，不需要企業已有完整永續系統。</div>
                 </div>
-                <div class="faq-item" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                <div class="faq-item">
                     <div class="faq-q">Q2. 公司資料還不完整，可以開始嗎？</div>
                     <div class="faq-a">可以。服務會先盤點現有資料，並提醒後續需要補充的方向。資料不完整是常態，不影響啟動。</div>
                 </div>
-                <div class="faq-item" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+                <div class="faq-item">
                     <div class="faq-q">Q3. 會依照 GRI 指標整理嗎？</div>
                     <div class="faq-a">以 GRI 為參考基礎，協助資料盤點與部門分工。內容依企業資料範圍整理，不強制套入所有指標。</div>
                 </div>
-                <div class="faq-item" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+                <div class="faq-item">
                     <div class="faq-q">Q4. 美編設計、碳盤查、第三方查證是否包含？</div>
                     <div class="faq-a">本方案以資料盤點與文字撰寫為主，美編另計；碳盤查與第三方查證不含在內，如有需求可另行討論。</div>
                 </div>
@@ -1321,7 +1326,7 @@
     </section>
 
     <!-- 08 CTA -->
-    <section id="contact" class="cta-section" data-aos="fade-up" data-aos-duration="1200">
+    <section id="contact" class="cta-section">
         <div class="cta-container">
             <h2 class="cta-title">讓企業行動，成為可被看見的永續成果</h2>
             <p class="cta-sub">如果您的企業已累積員工照顧、公益參與、環境友善或治理相關行動，歡迎聯繫我們，一起盤點第一步。</p>
@@ -1357,23 +1362,13 @@
         © 2026 臺南市織英教育與公益協會 · Tainan Chihying Education and Public Welfare Association
     </footer>
 
-    <!-- 引入 AOS 滾動動畫庫 JavaScript -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // 手機版滑動卡住修正：不攔截錨點點擊，改用瀏覽器原生捲動。
-        // CSS 的 scroll-behavior + scroll-padding-top 會處理平滑滑動與固定導覽列遮擋問題。
+        // 保險處理：避免瀏覽器回上一頁或手機快取後留下不能捲動的狀態。
         window.addEventListener('pageshow', function() {
-            document.documentElement.style.overflowY = '';
-            document.body.style.overflowY = '';
+            document.documentElement.style.overflow = '';
+            document.body.style.overflow = '';
             document.body.style.position = '';
             document.body.style.touchAction = '';
-        });
-
-        AOS.init({
-            once: true,
-            duration: 900,       
-            offset: 120,         
-            easing: 'ease-out-cubic'
         });
     </script>
 </body>

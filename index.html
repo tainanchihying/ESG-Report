@@ -142,12 +142,28 @@
             object-fit: contain;
         }
 
-        .nav-name {
+        .nav-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 0;
+            line-height: 1.25;
+        }
+
+        .nav-title {
             font-size: 18px;
             font-weight: 700;
             color: var(--text-dark);
             letter-spacing: 0.5px;
-            line-height: 1.35;
+            white-space: nowrap;
+        }
+
+        .nav-subtitle {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.2px;
+            white-space: nowrap;
         }
 
         .nav-links {
@@ -713,10 +729,18 @@
                 flex: 0 0 auto;
             }
 
-            .nav-name {
+            .nav-title {
                 font-size: 14px;
-                line-height: 1.35;
+                line-height: 1.25;
                 letter-spacing: 0;
+                white-space: normal;
+            }
+
+            .nav-subtitle {
+                font-size: 11px;
+                line-height: 1.25;
+                letter-spacing: 0;
+                white-space: normal;
                 word-break: keep-all;
                 overflow-wrap: anywhere;
             }
@@ -1031,8 +1055,12 @@
                 min-height: 128px;
             }
 
-            .nav-name {
+            .nav-title {
                 font-size: 13px;
+            }
+
+            .nav-subtitle {
+                font-size: 10px;
             }
 
             .nav-cta {
@@ -1076,6 +1104,13 @@
             }
         }
     </style>
+
+    <script>
+        // 重新整理或重新進入頁面時，固定從最上方開始。
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+    </script>
 </head>
 <body id="top">
 
@@ -1083,7 +1118,10 @@
     <nav class="nav">
         <a class="nav-logo" href="#top" aria-label="回到頁面最上方">
             <img src="logo.png" alt="臺南市織英教育與公益協會 Logo" class="nav-logo-img">
-            <span class="nav-name">臺南市織英教育與公益協會</span>
+            <span class="nav-text">
+                <span class="nav-title">ESG報告書撰寫</span>
+                <span class="nav-subtitle">臺南市織英教育與公益協會</span>
+            </span>
         </a>
         <div class="nav-links">
             <a class="nav-link" href="#about">什麼是ESG</a>
@@ -1418,6 +1456,17 @@
             document.body.style.overflowY = '';
             document.body.style.position = '';
             document.body.style.touchAction = '';
+
+            // 避免瀏覽器重整後停留在原本捲動位置。
+            requestAnimationFrame(function() {
+                window.scrollTo(0, 0);
+            });
+        });
+
+        window.addEventListener('load', function() {
+            requestAnimationFrame(function() {
+                window.scrollTo(0, 0);
+            });
         });
 
         function initRevealAnimations() {

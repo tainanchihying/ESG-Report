@@ -56,6 +56,11 @@
             height: auto;
         }
 
+        /* 手機重整時先關閉平滑捲動，避免瀏覽器復原位置與回頂動畫互相拉扯 */
+        html.is-page-resetting {
+            scroll-behavior: auto !important;
+        }
+
         body {
             background-color: var(--bg-light-tint);
             color: var(--text-dark);
@@ -1107,9 +1112,14 @@
 
     <script>
         // 重新整理或重新進入頁面時，固定從最上方開始。
-        if ('scrollRestoration' in history) {
-            history.scrollRestoration = 'manual';
-        }
+        // 先暫時關閉 CSS 平滑捲動，避免手機 Safari / Chrome 重整時出現來回跳動。
+        (function() {
+            if ('scrollRestoration' in history) {
+                history.scrollRestoration = 'manual';
+            }
+            document.documentElement.classList.add('is-page-resetting');
+            window.scrollTo(0, 0);
+        })();
     </script>
 </head>
 <body id="top">
@@ -1451,23 +1461,39 @@
     <script>
         // 手機版滑動卡住修正：不攔截錨點點擊，改用瀏覽器原生捲動。
         // 同時用輕量 IntersectionObserver 做進場動畫，保留原本視覺效果但減少 AOS 套件造成的捲動負擔。
-        window.addEventListener('pageshow', function() {
-            document.documentElement.style.overflowY = '';
-            document.body.style.overflowY = '';
-            document.body.style.position = '';
-            document.body.style.touchAction = '';
+        // 重整回頂只做「短暫、瞬間」校正，不再用 load 事件反覆拉回，避免手機版看起來亂跳。
+        (function() {
+            var didResetTop = false;
 
-            // 避免瀏覽器重整後停留在原本捲動位置。
-            requestAnimationFrame(function() {
-                window.scrollTo(0, 0);
-            });
-        });
+            function resetToTopOnce() {
+                if (didResetTop) return;
+                didResetTop = true;
 
-        window.addEventListener('load', function() {
-            requestAnimationFrame(function() {
+                document.documentElement.style.overflowY = '';
+                document.body.style.overflowY = '';
+                document.body.style.position = '';
+                document.body.style.touchAction = '';
+
+                document.documentElement.classList.add('is-page-resetting');
                 window.scrollTo(0, 0);
-            });
-        });
+
+                requestAnimationFrame(function() {
+                    window.scrollTo(0, 0);
+                    setTimeout(function() {
+                        window.scrollTo(0, 0);
+                        document.documentElement.classList.remove('is-page-resetting');
+                    }, 80);
+                });
+            }
+
+            window.addEventListener('pageshow', resetToTopOnce, { once: true });
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', resetToTopOnce, { once: true });
+            } else {
+                resetToTopOnce();
+            }
+        })();
 
         function initRevealAnimations() {
             var items = document.querySelectorAll('[data-aos]');

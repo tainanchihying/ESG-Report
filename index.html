@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no,address=no,email=no">
-    <title>ESG 永續報告書服務 | 臺南市織英教育與公益協會</title>
+    <title>永續行動支持服務｜ESG 報告書撰寫與碳盤查｜臺南市織英教育與公益協會</title>
     
     <!-- 引入 Google 字體：思源襯線體 -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght=500;600;700&display=swap">
@@ -565,6 +565,7 @@
         .section-container { max-width: 1200px; margin: 0 auto; }
         .section-label { font-size: 15px; letter-spacing: 0.15em; font-weight: 700; color: var(--brand-blue); margin-bottom: 16px; display: block; }
         .section-title { font-size: 42px; font-weight: 700; line-height: 1.45; margin-bottom: 24px; letter-spacing: 0.5px; }
+        .section-title.single-line { white-space: nowrap; font-size: clamp(25px, 3.5vw, 42px); letter-spacing: 0; }
         .accent-line { height: 4px; background: var(--brand-blue); width: 70px; margin-bottom: 40px; }
         .lead-text { font-size: 21px; color: var(--text-muted); max-width: 850px; margin-bottom: 60px; font-weight: 500; }
 
@@ -593,6 +594,159 @@
         .esg-card h3 { font-size: 23px; font-weight: 700; margin-bottom: 14px; color: var(--text-dark); }
         .esg-card p { font-size: 16px; color: var(--text-muted); font-weight: 500; }
 
+
+
+        /* 02 兩大服務卡片 */
+        .service-choice-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .service-option-card {
+            background: #ffffff;
+            border: 1px solid #d2dfef;
+            border-radius: 12px;
+            padding: 42px 36px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.025);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-option-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--brand-blue), var(--brand-cyan));
+        }
+
+        .service-option-card.carbon::before {
+            background: linear-gradient(90deg, var(--esg-e), #69b86d);
+        }
+
+        .service-option-card h3 {
+            font-size: 25px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 14px;
+        }
+
+        .service-option-card p {
+            font-size: 17px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 22px;
+        }
+
+        .service-option-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+        }
+
+        .service-option-tag {
+            display: inline-block;
+            font-size: 14px;
+            background: #e8f0f8;
+            color: var(--brand-blue);
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .service-option-card.carbon .service-option-tag {
+            background: rgba(46, 125, 50, 0.12);
+            color: var(--esg-e);
+        }
+
+        .esg-note {
+            margin-top: 34px;
+            padding: 28px 30px;
+            border-radius: 12px;
+            background: #ffffff;
+            border: 1px solid #d2dfef;
+            color: var(--text-muted);
+            font-size: 17px;
+            font-weight: 500;
+        }
+
+        .esg-note strong {
+            color: var(--brand-blue);
+            font-weight: 700;
+        }
+
+        .esg-note p {
+            margin: 0;
+        }
+
+        .esg-note p + p {
+            margin-top: 8px;
+        }
+
+        /* 服務流程切換 */
+        .process-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin: 34px 0 32px;
+        }
+
+        .process-tab {
+            border: 1px solid #d2dfef;
+            background: #ffffff;
+            color: var(--text-muted);
+            padding: 12px 24px;
+            border-radius: 999px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+        }
+
+        .process-tab:hover {
+            color: var(--brand-blue);
+            border-color: var(--brand-blue);
+            transform: translateY(-1px);
+        }
+
+        .process-tab[data-process-tab="carbon"]:hover {
+            color: var(--esg-e);
+            border-color: var(--esg-e);
+        }
+
+        .process-tab.is-active {
+            color: #ffffff;
+            background: var(--brand-blue);
+            border-color: var(--brand-blue);
+            box-shadow: 0 8px 22px rgba(26, 95, 168, 0.18);
+        }
+
+        .process-tab[data-process-tab="carbon"].is-active {
+            background: var(--esg-e);
+            border-color: var(--esg-e);
+            box-shadow: 0 8px 22px rgba(46, 125, 50, 0.18);
+        }
+
+        .process-panel {
+            display: none;
+        }
+
+        .process-panel.is-active {
+            display: block;
+            animation: processFade 0.38s ease both;
+        }
+
+        @keyframes processFade {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* 03 企業真實情境 */
         .sit-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
         .sit-box { background: #ffffff; border: 1px solid #d2dfef; padding: 40px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.02); border-top: 5px solid var(--brand-blue); }
@@ -618,6 +772,11 @@
         .timeline-content p { font-size: 17px; color: var(--text-dark); font-weight: 500; margin-bottom: 18px; }
         .tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
         .flow-tag { display: inline-block; font-size: 14px; background: #e8f0f8; color: var(--brand-blue); padding: 4px 12px; border-radius: 4px; font-weight: 700; white-space: nowrap; }
+        #process-carbon .timeline-content::before { background: linear-gradient(90deg, var(--esg-e), #69b86d); }
+        #process-carbon .timeline-container::after { border-color: var(--esg-e); }
+        #process-carbon .timeline-content h3,
+        #process-carbon .timeline-content h3 span { color: var(--esg-e); }
+        #process-carbon .flow-tag { background: rgba(46, 125, 50, 0.12); color: var(--esg-e); }
         .process-note { max-width: 760px; margin: 44px auto 0; padding-top: 26px; color: var(--text-muted); font-size: 18px; font-weight: 500; text-align: center; position: relative; }
         .process-note::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 72px; height: 4px; background: var(--brand-blue); border-radius: 999px; opacity: 0.85; }
         .process-note strong { color: var(--brand-blue); font-weight: 700; }
@@ -879,6 +1038,13 @@
                 line-height: 1.45;
             }
 
+            .section-title.single-line {
+                font-size: clamp(20px, 5.35vw, 30px);
+                line-height: 1.35;
+                white-space: nowrap;
+                letter-spacing: 0;
+            }
+
             .lead-text {
                 font-size: 17px;
                 margin-bottom: 38px;
@@ -1036,6 +1202,40 @@
                 width: 58px;
             }
 
+
+
+            .service-choice-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                margin-bottom: 38px;
+            }
+
+            .service-option-card {
+                padding: 28px 22px;
+            }
+
+            .service-option-card h3 {
+                font-size: 22px;
+            }
+
+            .service-option-card p,
+            .esg-note {
+                font-size: 16px;
+            }
+
+            .process-tabs {
+                justify-content: flex-start;
+                gap: 10px;
+                margin: 26px 0 24px;
+            }
+
+            .process-tab {
+                flex: 1 1 100%;
+                padding: 11px 16px;
+                font-size: 16px;
+            }
+
+
             .footer {
                 padding: 22px 18px;
                 font-size: 13px;
@@ -1129,13 +1329,13 @@
         <a class="nav-logo" href="#top" aria-label="回到頁面最上方">
             <img src="logo.png" alt="臺南市織英教育與公益協會 Logo" class="nav-logo-img">
             <span class="nav-text">
-                <span class="nav-title">ESG報告書撰寫</span>
+                <span class="nav-title">永續行動支持服務</span>
                 <span class="nav-subtitle">臺南市織英教育與公益協會</span>
             </span>
         </a>
         <div class="nav-links">
-            <a class="nav-link" href="#about">什麼是ESG</a>
-            <a class="nav-link" href="#situation">真實情境</a>
+            <a class="nav-link" href="#about">服務內容</a>
+            <a class="nav-link" href="#situation">企業情境</a>
             <a class="nav-link" href="#process">服務流程</a>
             <a class="nav-link" href="#usage">用途與對象</a>
             <a class="nav-link" href="#faq">常見問題</a>
@@ -1146,14 +1346,14 @@
     <!-- 01 HERO -->
     <section class="hero" data-aos="fade-in" data-aos-duration="1000">
         <div class="hero-container">
-            <div class="hero-badge">ESG 永續報告書撰寫服務</div>
+            <div class="hero-badge">永續行動支持服務</div>
             <h1>盤點企業行動，<br><em>回應永續需求</em></h1>
-            <p class="hero-sub">把企業做過的事，轉化成一份可被看見、可被採信的永續報告書。</p>
+            <p class="hero-sub">協助企業依需求進行 ESG 報告書撰寫、碳盤查與永續資料整理，讓既有行動與營運數據成為可回應、可管理、可對外溝通的永續成果。</p>
             <div class="chips-container">
+                <span class="tag-chip">ESG 報告書</span>
+                <span class="tag-chip">碳盤查服務</span>
                 <span class="tag-chip">供應鏈合作</span>
-                <span class="tag-chip">客戶要求</span>
-                <span class="tag-chip">補助申請</span>
-                <span class="tag-chip">對外溝通</span>
+                <span class="tag-chip">永續資料整理</span>
             </div>
         </div>
         
@@ -1243,14 +1443,38 @@
         </div>
     </section>
 
-    <!-- 02 什麼是 ESG -->
+    <!-- 02 服務內容 -->
     <section id="about" class="section section-white">
         <div class="section-container" data-aos="fade-up" data-aos-duration="1000">
-            <span class="section-label">ABOUT ESG</span>
-            <h2 class="section-title">三個字母，說的是企業對<br>環境、社會與治理的責任</h2>
+            <span class="section-label">SERVICE</span>
+            <h2 class="section-title single-line">兩種永續服務，依企業需求選擇</h2>
             <div class="accent-line"></div>
-            <p class="lead-text">ESG 不是新的法規要求，而是企業長期以來對員工、環境與社區所做的事——現在開始需要被系統整理、清楚說明，才能在供應鏈、客戶與補助申請中有所回應。</p>
+            <p class="lead-text">本服務協助企業從現有資料出發，整理永續行動、營運數據與碳排相關資訊，並依企業需求提供 ESG 報告書撰寫或碳盤查服務。</p>
             
+            <div class="service-choice-grid">
+                <article class="service-option-card report">
+                    <h3>ESG 報告書撰寫</h3>
+                    <p>協助企業盤點公益行動、員工照顧、環境友善、治理制度與營運成果，整理成可對外溝通、可提供客戶或合作單位參考的 ESG／永續報告書。</p>
+                    <div class="service-option-tags">
+                        <span class="service-option-tag">供應鏈 ESG 問卷</span>
+                        <span class="service-option-tag">品牌溝通</span>
+                        <span class="service-option-tag">補助申請</span>
+                        <span class="service-option-tag">成果整理</span>
+                    </div>
+                </article>
+
+                <article class="service-option-card carbon">
+                    <h3>碳盤查服務</h3>
+                    <p>協助企業依營運狀況進行排放來源盤點、活動數據整理與碳排資料彙整，建立後續碳管理、供應鏈回應與內部管理所需的基礎資料。</p>
+                    <div class="service-option-tags">
+                        <span class="service-option-tag">排放來源盤點</span>
+                        <span class="service-option-tag">活動數據整理</span>
+                        <span class="service-option-tag">碳排資料彙整</span>
+                        <span class="service-option-tag">企業內稽</span>
+                    </div>
+                </article>
+            </div>
+
             <div class="esg-grid">
                 <div class="esg-card card-e">
                     <div class="esg-text-icon icon-e">E</div>
@@ -1268,6 +1492,11 @@
                     <p>公司治理、資訊透明、內控制度、誠信經營</p>
                 </div>
             </div>
+
+            <div class="esg-note">
+                <p><strong>ESG 報告書</strong>聚焦永續行動整理與對外溝通；<strong>碳盤查服務</strong>聚焦排放來源盤點、活動數據收集與碳排資料整理。</p>
+                <p>兩項服務可依企業目前需求分別執行。</p>
+            </div>
         </div>
     </section>
 
@@ -1275,17 +1504,17 @@
     <section id="situation" class="section section-soft">
         <div class="section-container">
             <span class="section-label" data-aos="fade-up" data-aos-duration="800">REAL SITUATION</span>
-            <h2 class="section-title" data-aos="fade-up" data-aos-duration="800">許多企業其實已經在做了，<br>幕後還沒有一份文件能說清楚</h2>
+            <h2 class="section-title" data-aos="fade-up" data-aos-duration="800">許多企業其實已經在做了，<br>只是還沒有一份資料能說清楚</h2>
             <div class="accent-line" data-aos="fade-up" data-aos-duration="800"></div>
             
             <div class="sit-layout">
                 <div class="sit-box" data-aos="fade-right" data-aos-duration="1100">
                     <div class="sit-tag">供應鏈合作</div>
-                    <p>合作夥伴要求提交 ESG 問卷，<strong>三十幾題需要填寫</strong>。負責人知道公司做了很多，但資料分散在各部門，沒辦法在短時間整理出來。</p>
+                    <p>合作夥伴要求提交 ESG 問卷、永續資料或碳排相關資訊。負責人知道公司做了很多，但資料分散在各部門，<strong>沒辦法在短時間整理出來</strong>。</p>
                 </div>
                 <div class="sit-box" data-aos="fade-left" data-aos-duration="1100">
-                    <div class="sit-tag">補助申請</div>
-                    <p>評審詢問是否有永續行動的佐證資料，但公司<strong>從未系統整理過</strong>員工照顧、節能或社區參與的紀錄，補助機會就這樣流失了。</p>
+                    <div class="sit-tag">補助申請／對外溝通</div>
+                    <p>評審、客戶或合作單位詢問永續行動、節能改善或碳排資料，但公司<strong>從未系統整理過</strong>員工照顧、環境數據或社區參與紀錄，回應時缺少清楚依據。</p>
                 </div>
             </div>
         </div>
@@ -1296,79 +1525,127 @@
         <div class="section-container">
             <span class="section-label" data-aos="fade-up" data-aos-duration="800">OUR PROCESS</span>
             <h2 class="section-title" data-aos="fade-up" data-aos-duration="800">輕鬆入門，逐步完成</h2>
-            <p class="process-subtitle" data-aos="fade-up" data-aos-duration="800">三次到場，從 ESG 基礎認識、資料分工到報告撰寫，陪企業一步一步完成永續報告書。</p>
+            <p class="process-subtitle" data-aos="fade-up" data-aos-duration="800">不論是 ESG 報告書撰寫或碳盤查服務，都從現有資料出發，協助企業釐清方向、完成分工，逐步整理出可使用的永續成果。</p>
             <div class="accent-line" data-aos="fade-up" data-aos-duration="800"></div>
             
-            <div class="timeline">
-                <div class="timeline-container timeline-left" data-aos="fade-right" data-aos-duration="1000">
-                    <div class="timeline-content">
-                        <h3><span>01</span> 簡單開始</h3>
-                        <div class="step-service">啟始會議</div>
-                        <p>用清楚好懂的方式，帶企業認識 ESG 報告書，並初步盤點現有資料與可整理的永續行動。</p>
-                        <div class="tag-row">
-                            <span class="flow-tag">認識 ESG</span>
-                            <span class="flow-tag">盤點資料</span>
-                            <span class="flow-tag">確認方向</span>
+            <div class="process-tabs" role="tablist" aria-label="服務流程切換">
+                <button class="process-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="process-esg" data-process-tab="esg">ESG 報告書撰寫</button>
+                <button class="process-tab" type="button" role="tab" aria-selected="false" aria-controls="process-carbon" data-process-tab="carbon">碳盤查服務</button>
+            </div>
+
+            <div class="process-panel is-active" id="process-esg" role="tabpanel" data-process-panel="esg">
+                <div class="timeline">
+                    <div class="timeline-container timeline-left" data-aos="fade-right" data-aos-duration="1000">
+                        <div class="timeline-content">
+                            <h3><span>01</span> 啟始會議</h3>
+                            <div class="step-service">報告用途與資料盤點</div>
+                            <p>用清楚好懂的方式，協助企業認識 ESG 報告書，確認報告用途、資料範圍與執行方向。</p>
+                            <div class="tag-row">
+                                <span class="flow-tag">認識 ESG</span>
+                                <span class="flow-tag">確認用途</span>
+                                <span class="flow-tag">盤點方向</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-container timeline-right" data-aos="fade-left" data-aos-duration="1000">
+                        <div class="timeline-content">
+                            <h3><span>02</span> 教育訓練與資料分工</h3>
+                            <div class="step-service">指標方向與內部分工</div>
+                            <p>依照組織架構與 GRI 指標方向，協助確認各部門需要提供的資料，讓內部整理更有依據。</p>
+                            <div class="tag-row">
+                                <span class="flow-tag">部門分工</span>
+                                <span class="flow-tag">資料整理</span>
+                                <span class="flow-tag">指標方向</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-container timeline-left" data-aos="fade-right" data-aos-duration="1000">
+                        <div class="timeline-content">
+                            <h3><span>03</span> 初稿討論與報告撰寫</h3>
+                            <div class="step-service">內容整理與文字撰寫</div>
+                            <p>從資料盤點、內容確認到報告文字撰寫，陪企業完成可對外溝通的 ESG／永續報告書。</p>
+                            <div class="tag-row">
+                                <span class="flow-tag">初稿討論</span>
+                                <span class="flow-tag">文字撰寫</span>
+                                <span class="flow-tag">完成報告</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="timeline-container timeline-right" data-aos="fade-left" data-aos-duration="1000">
-                    <div class="timeline-content">
-                        <h3><span>02</span> 分工清楚</h3>
-                        <div class="step-service">教育訓練</div>
-                        <p>依照組織架構與 GRI 指標方向，協助確認各部門需要提供的資料，讓內部不再各自摸索。</p>
-                        <div class="tag-row">
-                            <span class="flow-tag">部門分工</span>
-                            <span class="flow-tag">資料整理</span>
-                            <span class="flow-tag">指標方向</span>
+            </div>
+
+            <div class="process-panel" id="process-carbon" role="tabpanel" data-process-panel="carbon">
+                <div class="timeline">
+                    <div class="timeline-container timeline-left" data-aos="fade-right" data-aos-duration="1000">
+                        <div class="timeline-content">
+                            <h3><span>01</span> 啟始會議</h3>
+                            <div class="step-service">盤查範圍與資料期間確認</div>
+                            <p>確認企業營運狀況、盤查範圍、資料期間與內部分工，讓碳盤查工作有清楚的起點。</p>
+                            <div class="tag-row">
+                                <span class="flow-tag">確認範圍</span>
+                                <span class="flow-tag">資料期間</span>
+                                <span class="flow-tag">內部分工</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="timeline-container timeline-left" data-aos="fade-right" data-aos-duration="1000">
-                    <div class="timeline-content">
-                        <h3><span>03</span> 陪你完成</h3>
-                        <div class="step-service">初稿討論與報告撰寫</div>
-                        <p>從資料盤點、內容確認到報告文字撰寫，陪企業逐步完成可對外溝通的永續報告書。</p>
-                        <div class="tag-row">
-                            <span class="flow-tag">初稿討論</span>
-                            <span class="flow-tag">文字撰寫</span>
-                            <span class="flow-tag">完成報告</span>
+                    <div class="timeline-container timeline-right" data-aos="fade-left" data-aos-duration="1000">
+                        <div class="timeline-content">
+                            <h3><span>02</span> 資料收集</h3>
+                            <div class="step-service">活動數據與排放來源整理</div>
+                            <p>協助企業整理用電、燃料、車輛、設備、冷媒或其他營運活動資料，建立碳排計算所需基礎資料。</p>
+                            <div class="tag-row">
+                                <span class="flow-tag">活動數據</span>
+                                <span class="flow-tag">排放來源</span>
+                                <span class="flow-tag">資料彙整</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-container timeline-left" data-aos="fade-right" data-aos-duration="1000">
+                        <div class="timeline-content">
+                            <h3><span>03</span> 企業內部稽核</h3>
+                            <div class="step-service">資料檢核與結果整理</div>
+                            <p>協助企業檢視資料完整性與合理性，確認盤查資料、計算結果與內部紀錄是否一致。</p>
+                            <div class="tag-row">
+                                <span class="flow-tag">資料檢核</span>
+                                <span class="flow-tag">內部確認</span>
+                                <span class="flow-tag">結果整理</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="process-note" data-aos="fade-up" data-aos-duration="900">
-                不需要企業一開始就有完整永續系統，<strong>從現有資料出發</strong>，也能整理成清楚、可回應客戶與供應鏈需求的報告內容。
+                不需要企業一開始就有完整永續系統，<strong>從現有資料出發</strong>，也能逐步建立可回應客戶、供應鏈與內部管理需求的資料基礎。
             </div>
         </div>
     </section>
 
-    <!-- 05 報告書用途 與 06 適合對象 -->
+    <!-- 05 用途與對象 -->
     <section id="usage" class="section section-soft">
         <div class="section-container">
             <div data-aos="fade-up" data-aos-duration="800">
                 <span class="section-label">PURPOSE & TARGET</span>
-                <h2 class="section-title">一份報告書，用在不同場合</h2>
+                <h2 class="section-title single-line">永續資料整理後，可以用在不同場合</h2>
                 <div class="accent-line"></div>
             </div>
             
             <div class="use-grid">
                 <div class="use-item" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-                    <h3>直接對應客戶 ESG 問卷</h3>
-                    <p>不需每次臨時整理，問卷回覆有所依據，不讓合作因文件缺失而卡關。</p>
+                    <h3>回應客戶與供應鏈要求</h3>
+                    <p>面對 ESG 問卷、永續資料或碳排相關詢問時，有清楚資料可以回應，不再每次臨時整理。</p>
                 </div>
                 <div class="use-item" data-aos="fade-up" data-aos-duration="800" data-aos-delay="250">
-                    <h3>作為永續行動佐證資料</h3>
-                    <p>讓企業既有行動成為計畫申請的加分依據，不讓努力白費。</p>
+                    <h3>完成 ESG／永續報告書</h3>
+                    <p>將企業既有行動整理成可對外溝通的文件，作為合作、品牌與永續成果呈現的基礎。</p>
                 </div>
                 <div class="use-item" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-                    <h3>清楚回應永續相關詢問</h3>
-                    <p>不再只能口頭說明，提供清楚的文件讓客戶有所依據。</p>
+                    <h3>建立碳排資料基礎</h3>
+                    <p>協助企業盤點排放來源、整理活動數據與碳排資料，逐步建立內部碳管理的資料基礎。</p>
                 </div>
                 <div class="use-item" data-aos="fade-up" data-aos-duration="800" data-aos-delay="550">
-                    <h3>官網、簡報、年報的素材</h3>
-                    <p>一份文件延伸成多種對外溝通內容，省去重複整理的時間。</p>
+                    <h3>延伸為官網、簡報與合作素材</h3>
+                    <p>整理後的資料可延伸為官網介紹、企業簡報、補助申請或合作提案內容，降低重複整理成本。</p>
                 </div>
             </div>
 
@@ -1376,15 +1653,15 @@
                 <div class="target-grid">
                     <div class="target-li">
                         <i class="fa-solid fa-circle-check"></i>
-                        <p><strong>有員工照顧、節能改善或社區參與的行動紀錄：</strong> 散落在各部門、還沒被系統整理也沒關係。</p>
+                        <p><strong>有員工照顧、節能改善、社區參與或治理制度等行動紀錄：</strong> 散落在各部門、還沒被系統整理也沒關係。</p>
                     </div>
                     <div class="target-li">
                         <i class="fa-solid fa-circle-check"></i>
-                        <p><strong>開始被合作夥伴、客戶或政府詢問 ESG 相關資訊：</strong> 需要一份清楚的文件來回應，不只是口頭說明。</p>
+                        <p><strong>開始被合作夥伴、客戶或政府詢問 ESG、永續或碳排相關資訊：</strong> 需要一份清楚的資料基礎來回應，不只是口頭說明。</p>
                     </div>
                     <div class="target-li">
                         <i class="fa-solid fa-circle-check"></i>
-                        <p><strong>希望完成第一份 ESG 報告書，但不知道從哪裡開始：</strong> 不需要事先建立永續系統，從現有資料出發即可。</p>
+                        <p><strong>希望完成第一份 ESG 報告書或啟動碳盤查服務：</strong> 不需要事先建立完整永續系統，從現有資料出發即可。</p>
                     </div>
                 </div>
             </div>
@@ -1402,20 +1679,20 @@
             
             <div class="faq-block">
                 <div class="faq-item" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-                    <div class="faq-q">Q1. 我們公司第一次做 ESG 報告書，也適合嗎？</div>
-                    <div class="faq-a">適合。本服務從 ESG 基礎認識與資料盤點開始，不需要企業已有完整永續系統。</div>
+                    <div class="faq-q">Q1. ESG 報告書和碳盤查一定要一起做嗎？</div>
+                    <div class="faq-a">不用。兩者可以依企業需求單獨執行，也可以搭配規劃。若企業目前主要需要回應客戶 ESG 問卷，可以先從報告書與永續資料整理開始；若主要需要整理碳排資料，也可以單獨進行碳盤查服務。</div>
                 </div>
                 <div class="faq-item" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-                    <div class="faq-q">Q2. 公司資料還不完整，可以開始嗎？</div>
-                    <div class="faq-a">可以。服務會先盤點現有資料，並提醒後續需要補充的方向。資料不完整是常態，不影響啟動。</div>
+                    <div class="faq-q">Q2. 公司第一次做 ESG 或碳盤查，也適合嗎？</div>
+                    <div class="faq-a">適合。本服務會從現有資料盤點、內部分工與資料整理開始，協助企業確認需要蒐集的資料與後續整理方向。</div>
                 </div>
                 <div class="faq-item" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
-                    <div class="faq-q">Q3. 會依照 GRI 指標整理嗎？</div>
+                    <div class="faq-q">Q3. ESG 報告書會依照 GRI 指標整理嗎？</div>
                     <div class="faq-a">以 GRI 為參考基礎，協助資料盤點與部門分工。內容依企業資料範圍整理，不強制套入所有指標。</div>
                 </div>
                 <div class="faq-item" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-                    <div class="faq-q">Q4. 美編設計、碳盤查、第三方查證是否包含？</div>
-                    <div class="faq-a">本方案以資料盤點與文字撰寫為主，美編另計；碳盤查與第三方查證不含在內，如有需求可另行討論。</div>
+                    <div class="faq-q">Q4. 美編設計與第三方查證是否包含？</div>
+                    <div class="faq-a">本服務以資料盤點、內容整理、文字撰寫或碳盤查作業為主，不包含美編設計、封面設計、完整排版與第三方查證。若企業後續有報告書美編、報告書查證或碳盤查查證等需求，可再依實際情況另行討論規劃。</div>
                 </div>
             </div>
         </div>
@@ -1425,10 +1702,10 @@
     <section id="contact" class="cta-section" data-aos="fade-up" data-aos-duration="1200">
         <div class="cta-container">
             <h2 class="cta-title">讓企業行動，成為可被看見的永續成果</h2>
-            <p class="cta-sub">如果您的企業已累積員工照顧、公益參與、環境友善或治理相關行動，歡迎聯繫我們，一起盤點第一步。</p>
+            <p class="cta-sub">如果您的企業已累積員工照顧、公益參與、環境友善、治理制度或碳排資料整理需求，歡迎聯繫我們，一起盤點第一步。</p>
             
             <div class="cta-btns">
-                <a href="mailto:info@chihying.org?subject=詢問ESG永續報告書撰寫服務" class="btn-mail">
+                <a href="mailto:info@chihying.org?subject=詢問永續行動支持服務" class="btn-mail">
                     <i class="fa-solid fa-envelope" style="margin-right:10px;"></i>發送 Email 諮詢
                 </a>
                 <a href="https://lin.ee/ZVQk5XS" target="_blank" class="btn-line">
@@ -1523,6 +1800,44 @@
             document.addEventListener('DOMContentLoaded', initRevealAnimations);
         } else {
             initRevealAnimations();
+        }
+
+
+        function initProcessTabs() {
+            var tabs = document.querySelectorAll('[data-process-tab]');
+            var panels = document.querySelectorAll('[data-process-panel]');
+            if (!tabs.length || !panels.length) return;
+
+            tabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var target = tab.getAttribute('data-process-tab');
+
+                    tabs.forEach(function(item) {
+                        var isActive = item === tab;
+                        item.classList.toggle('is-active', isActive);
+                        item.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                    });
+
+                    panels.forEach(function(panel) {
+                        var isActive = panel.getAttribute('data-process-panel') === target;
+                        panel.classList.toggle('is-active', isActive);
+                        if (isActive) {
+                            panel.style.animation = 'none';
+                            panel.offsetHeight;
+                            panel.style.animation = '';
+                            panel.querySelectorAll('[data-aos]').forEach(function(item) {
+                                item.classList.add('aos-animate');
+                            });
+                        }
+                    });
+                });
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initProcessTabs);
+        } else {
+            initProcessTabs();
         }
     </script>
 </body>
